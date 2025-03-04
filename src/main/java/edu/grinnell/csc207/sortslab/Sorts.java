@@ -109,66 +109,48 @@ public class Sorts {
      * @param <T> the carrier type of the array
      * @param arr the array to sort
      */
-    public static <T extends Comparable<? super T>> T[] merge(T[] arr, int lo, int hi) {
-        int mid = lo + (hi - lo) / 2;
-        
-        if (lo == hi - 1 || lo == hi){
-                        
-
-            T[] newArr = Arrays.copyOf(arr, 1);
-            newArr[0] = arr[lo];
-                         System.out.println(Arrays.toString(newArr));
-
-            return newArr;
+       
+    public static <T extends Comparable<? super T>> void merge(T[] merged, T[] left, T[] right){
+       
+            int i = 0;
+            int j = 0;
+            int k = 0;
             
-        }
-        else if(hi - lo == 2){
-            T[] newArr = Arrays.copyOf(arr, 2);
-             System.out.println(newArr[0].compareTo(newArr[1]) <  0?"true":"false");
-            if(newArr[0].compareTo(newArr[1]) <  0){
-                swap(newArr, 0 , 1);
+            while (i < left.length && j < right.length){
+                if (left[i].compareTo(right[j]) < 0){
+                    merged[k++] = left[i++];
+                } else {
+                    merged[k++] = right[j++];
+                }
             }
-                            System.out.println(Arrays.toString(newArr));
-
-            return newArr;
-        }
-        else {
-            T[] left = merge(arr, lo, mid);
-            T[] right = merge(arr, mid + 1, hi);
-            T[] merged = Arrays.copyOf(arr, left.length + right.length);
             
-             System.out.println(Arrays.toString(merged));
-            
-            for(int i = 0 ; i < left.length; i++){
-                merged[i] = left[i];
+            while (i < left.length){
+                merged[k++] = left[i++];
             }
-             for(int i = 0 ; i < right.length; i++){
-                merged[i+left.length] = right[i];
+            
+            while (j < right.length){
+                merged[k++] = right[j++];
             }
-            // int i = 0;
-            // int j = 0;
-            // int k = lo;
             
-            // while (i < left.length && j < right.length){
-            //     if (left[i].compareTo(right[j]) < 0){
-            //         merged[k++] = left[i++];
-            //     } else {
-            //         merged[k++] = right[j++];
-            //     }
-            // }
-            
-            // while (i < left.length){
-            //     merged[k++] = left[i++];
-            // }
-            
-            // while (i < right.length){
-            //     merged[k++] = right[j++];
-            // }
-            
-            return merged;
         }
         
+    
+    
+    public static <T extends Comparable<? super T>> void mergeSort(T[] arr) {
+        
+        if (arr.length < 2){
+            return;
+        }
+        int mid = arr.length / 2;
+        T[] left = Arrays.copyOfRange(arr, 0, mid);
+        T[] right = Arrays.copyOfRange(arr, mid, arr.length);
+        
+        mergeSort(left);
+        mergeSort(right);
+        
+        merge(arr, left, right);
     }
+
 
     /**
      * Sorts the array according to the quick sort algorithm:
