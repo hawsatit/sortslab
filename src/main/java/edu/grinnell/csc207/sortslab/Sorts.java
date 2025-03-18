@@ -99,6 +99,21 @@ public class Sorts {
             }
         }
     }
+    
+    public static <T extends Comparable<? super T>> void insertionSort2(T[] arr) {
+        // TODO: fill me in!
+        for (int i = 1; i < arr.length; i++) {
+            T compareVar = arr[i];
+            int j = i - 1;
+            
+            while (j >= 0 && (compareVar.compareTo(arr[j]) < 0)){
+                arr[j + 1] = arr[j];
+                j = j - 1;
+            }
+            
+            arr[j + 1] = compareVar;
+        }
+    }
 
     /**
      * Sorts the array according to the merge sort algorithm:
